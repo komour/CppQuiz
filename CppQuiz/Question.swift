@@ -10,5 +10,5 @@ import Foundation
 
 struct Question
 {
-    
+    // Было бы неплохо эту часть экрана таки сделать :)
 }
