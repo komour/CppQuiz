@@ -48,7 +48,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     
     
-    let pickOptions = ["The program is guaranteed to output.", "Compilation error.", "Unspecified / Implementation defined.", "Undefined behavior."]
+    let pickOptions = ["", "The program is guaranteed to output.", "Compilation error.", "Unspecified / Implementation defined.", "Undefined behavior."]
     
 //    let pickOptionsCount = 4
 //
@@ -117,10 +117,14 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         textFieldPicker.text = pickOptions[row]
-        if row == 0 {
-            answerView!.isHidden = false
-        } else {
+        switch row {
+        case 0:
+            textFieldPicker.text = "Choose one answer..."
             answerView!.isHidden = true
+        case 1:
+            answerView!.isHidden = false
+        default:
+             answerView!.isHidden = true
         }
     }
 
@@ -181,7 +185,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         toolBar.setItems([flexSpace, doneButton], animated: false)
         toolBar.sizeToFit()
         
-        
+        textFieldPicker.text = "Choose one..."
         
         questionTextView.isEditable = false
         questionTextView.isScrollEnabled = true
