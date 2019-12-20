@@ -8,7 +8,19 @@
 
 import Foundation
 
+enum pickOption {
+    case OK
+    case CE
+    case UID
+    case UB
+    case udefined
+}
+
 struct Question
 {
+    var correctAnswer : pickOption = pickOption.udefined
+    var questionBody : String = ""
+    
+    
     // Было бы неплохо эту часть экрана таки сделать :)
 }

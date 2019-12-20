@@ -14,35 +14,69 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         1
     }
     
+    
+    func randomString(length: Int) -> String {
+      let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+      return String((0..<length).map{ _ in letters.randomElement()! })
+    }
+    
 
+    var questionList = [Question]()
+    var favoriteQuestionList = [Question]()
+    
+    func initializeQuestionList(forList questionList: [Question]) {
+        let listSize = Int.random(in: 3...9)
+        for _ in 0 ... listSize {
+            let intForPickOpt = Int.random(in: 1...4)
+            var curPickOpt : pickOption
+            switch intForPickOpt {
+            case 1:
+                curPickOpt = pickOption.OK
+            case 2:
+                curPickOpt = pickOption.CE
+            case 3:
+                curPickOpt = pickOption.UB
+            default:
+                curPickOpt = pickOption.UID
+            }
+            let stringLength = Int.random(in: 42...1000)
+            let newQuestion = Question(correctAnswer: curPickOpt, questionBody: randomString(length: stringLength))
+            
+            self.questionList.append(newQuestion)
+        }
+    }
+    
+    
+    
     let pickOptions = ["The program is guaranteed to output.", "Compilation error.", "Unspecified / Implementation defined.", "Undefined behavior."]
     
 //    let pickOptionsCount = 4
 //
-//    enum pickOption {
-//        case OK
-//        case CE
-//        case UID
-//        case UB
-//    }
-//
-//    func pickOptionToString(option: pickOption) -> String {
-//        switch option {
-//        case .OK:
-//            return "The program is guaranteed to output."
-//        case .CE:
-//            return "Compilation error."
-//        case .UID:
-//            return "Unspecified / Implementation defined."
-//        default:
-//            return "Undefined behavior."
-//        }
-//    }
+    func pickOptionToString(option: pickOption) -> String {
+        switch option {
+        case .OK:
+            return "The program is guaranteed to output."
+        case .CE:
+            return "Compilation error."
+        case .UID:
+            return "Unspecified / Implementation defined."
+        default:
+            return "Undefined behavior."
+        }
+    }
+    
+    
     
     var someText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     
+    var answerView : UIView? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        initializeQuestionList(forList: questionList)
+        
+        answerView = verticalStackView.arrangedSubviews[1]
+        answerView!.isHidden = true
         setupTextFields()
         let pickerView = UIPickerView()
         pickerView.delegate = self
@@ -60,6 +94,8 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
             }
         }
     }
+    
+    
 
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
@@ -81,11 +117,17 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         textFieldPicker.text = pickOptions[row]
+        if row == 0 {
+            answerView!.isHidden = false
+        } else {
+            answerView!.isHidden = true
+        }
     }
 
     @IBOutlet weak var questionTextView: UITextView!
     @IBOutlet weak var textFieldAnswer: UITextField!
     @IBOutlet weak var textFieldPicker: UITextField!
+    
 
     
     func textViewShouldBeginEditing(textField: UITextView) -> Bool {
@@ -95,11 +137,41 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         return true
     }
     
+    func displayQuestion(forQuestion question: Question) {
+        questionTextView.text = question.questionBody
+        curQuestion = question
+    }
+    
     @IBAction func skipButton() {
-        questionTextView.text = someText
+        let randomQuestion = questionList.randomElement()!
+        displayQuestion(forQuestion: randomQuestion)
+//        questionTextView.text = someText
+//        print(questionList.count)
+    }
+    
+    @IBOutlet weak var verticalStackView: UIStackView!
+    
+    
+    @IBAction func answerButton() {
+        let curAnswer = textFieldPicker.text
+        if (curAnswer == nil) {
+            
+        } else {
+            if curAnswer == pickOptionToString(option: curQuestion.correctAnswer) {
+                print("Correct Answer!")
+                displayQuestion(forQuestion: questionList.randomElement()!)
+            } else {
+                print("Wrong Answer!")
+            }
+        }
+    }
+    
+    @IBAction func giveUpButton() {
+        skipButton()
     }
     
     
+    var curQuestion : Question = Question()
     
     func setupTextFields() {
         let toolBar = UIToolbar(frame: CGRect(origin: .zero, size: .init(width: view.frame.size.width, height: 30)))
