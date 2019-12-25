@@ -8,18 +8,16 @@
 
 import Foundation
 
-enum pickOption {
-    case OK
-    case CE
-    case UID
-    case UB
-    case udefined
-}
+struct Question {
+    enum Answer: Equatable {
+        case output(String)
+        case compilationError
+        case unspecified
+        case undefined
+    }
 
-struct Question
-{
-    var correctAnswer : pickOption = pickOption.udefined
-    var questionBody : String = ""
+    var correctAnswer: Answer
+    var questionBody: String
     
     
     // Было бы неплохо эту часть экрана таки сделать :)

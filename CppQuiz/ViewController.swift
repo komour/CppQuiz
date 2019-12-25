@@ -8,85 +8,78 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        1
-    }
-    
-    
-    func randomString(length: Int) -> String {
-      let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-      return String((0..<length).map{ _ in letters.randomElement()! })
-    }
-    
+class ViewController: UIViewController {
+    enum PickOption: CaseIterable {
+        case OK
+        case CE
+        case UID
+        case UB
 
-    var questionList = [Question]()
-    var favoriteQuestionList = [Question]()
-    
-    func initializeQuestionList(forList questionList: [Question]) {
-        let listSize = Int.random(in: 3...9)
-        for _ in 0 ... listSize {
-            let intForPickOpt = Int.random(in: 1...4)
-            var curPickOpt : pickOption
-            switch intForPickOpt {
-            case 1:
-                curPickOpt = pickOption.OK
-            case 2:
-                curPickOpt = pickOption.CE
-            case 3:
-                curPickOpt = pickOption.UB
-            default:
-                curPickOpt = pickOption.UID
+        var localizedName: String {
+            switch self {
+            case .OK: return "The program is guaranteed to output."
+            case .CE: return "Compilation error."
+            case .UID: return "Unspecified / Implementation defined."
+            case .UB: return "Undefined behavior."
             }
-            let stringLength = Int.random(in: 42...1000)
-            let newQuestion = Question(correctAnswer: curPickOpt, questionBody: randomString(length: stringLength))
-            
-            self.questionList.append(newQuestion)
+        }
+
+        func answer(_ text: String) -> Question.Answer {
+            switch self {
+            case .OK: return .output(text)
+            case .CE: return .compilationError
+            case .UID: return .unspecified
+            case .UB: return .undefined
+            }
         }
     }
-    
-    
-    
-    let pickOptions = ["", "The program is guaranteed to output.", "Compilation error.", "Unspecified / Implementation defined.", "Undefined behavior."]
-    
-//    let pickOptionsCount = 4
-//
-    func pickOptionToString(option: pickOption) -> String {
-        switch option {
-        case .OK:
-            return "The program is guaranteed to output."
-        case .CE:
-            return "Compilation error."
-        case .UID:
-            return "Unspecified / Implementation defined."
-        default:
-            return "Undefined behavior."
+
+    @IBOutlet weak var questionTextView: UITextView!
+    @IBOutlet weak var textFieldAnswer: UITextField!
+    @IBOutlet weak var textFieldPicker: UITextField!
+    @IBOutlet weak var verticalStackView: UIStackView!
+
+    private var curQuestion: Question!
+
+    private var favoriteQuestionList = [Question]()
+    private var questionList: [Question] = {
+        func randomString(length: Int) -> String {
+          let letters = "abcdefghijkl mnopqrstuvwxyz ABCDEFGHIJKLMN OPQRSTUVWXYZ 0123456789"
+          return String((0..<length).map{ _ in letters.randomElement()! })
         }
-    }
-    
-    
-    
+
+        return (0...Int.random(in: 3...9)).map { _ in
+            Question(correctAnswer: PickOption.allCases.randomElement()!.answer("test"),
+                     questionBody: randomString(length: .random(in: 42...1000)))
+        }
+    }()
+
     var someText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     
     var answerView : UIView? = nil
-    
+    let pickerView = UIPickerView()
+    var currentPickOption: PickOption? {
+        let row = self.pickerView.selectedRow(inComponent: 0)
+        return row > 0 ? PickOption.allCases[row - 1] : nil
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        initializeQuestionList(forList: questionList)
         
         answerView = verticalStackView.arrangedSubviews[1]
         answerView!.isHidden = true
         setupTextFields()
-        let pickerView = UIPickerView()
-        pickerView.delegate = self
+        self.pickerView.delegate = self
+        self.pickerView.dataSource = self
 //        questionTextView.delegate = self
         textFieldPicker.inputView = pickerView
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil) // А отписаться?)
+
+        displayQuestion(forQuestion: self.questionList.first!)
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
+    @objc private func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height
@@ -97,51 +90,20 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     
 
-    @objc func keyboardWillHide(notification: NSNotification) {
+    @objc private func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
     }
-    
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickOptions.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickOptions[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        textFieldPicker.text = pickOptions[row]
-        switch row {
-        case 0:
-            textFieldPicker.text = "Choose one answer..."
-            answerView!.isHidden = true
-        case 1:
-            answerView!.isHidden = false
-        default:
-             answerView!.isHidden = true
-        }
-    }
 
-    @IBOutlet weak var questionTextView: UITextView!
-    @IBOutlet weak var textFieldAnswer: UITextField!
-    @IBOutlet weak var textFieldPicker: UITextField!
-    
-
-    
-    func textViewShouldBeginEditing(textField: UITextView) -> Bool {
+    private func textViewShouldBeginEditing(textField: UITextView) -> Bool {
         if textField == questionTextView {
-            return false; //do not show keyboard nor cursor
+            return false;
         }
         return true
     }
     
-    func displayQuestion(forQuestion question: Question) {
+    private func displayQuestion(forQuestion question: Question) {
         questionTextView.text = question.questionBody
         curQuestion = question
     }
@@ -149,24 +111,15 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     @IBAction func skipButton() {
         let randomQuestion = questionList.randomElement()!
         displayQuestion(forQuestion: randomQuestion)
-//        questionTextView.text = someText
-//        print(questionList.count)
     }
-    
-    @IBOutlet weak var verticalStackView: UIStackView!
-    
-    
+
     @IBAction func answerButton() {
-        let curAnswer = textFieldPicker.text
-        if (curAnswer == nil) {
-            
+        let answer = self.currentPickOption?.answer(textFieldPicker.text ?? "")
+        if answer == curQuestion.correctAnswer {
+            print("Correct Answer!")
+            displayQuestion(forQuestion: questionList.randomElement()!)
         } else {
-            if curAnswer == pickOptionToString(option: curQuestion.correctAnswer) {
-                print("Correct Answer!")
-                displayQuestion(forQuestion: questionList.randomElement()!)
-            } else {
-                print("Wrong Answer!")
-            }
+            print("Wrong Answer!")
         }
     }
     
@@ -175,9 +128,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     }
     
     
-    var curQuestion : Question = Question()
-    
-    func setupTextFields() {
+    private func setupTextFields() {
         let toolBar = UIToolbar(frame: CGRect(origin: .zero, size: .init(width: view.frame.size.width, height: 30)))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(title: "Done", style: .done
@@ -196,7 +147,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
 //        questionTextView.isUserInteractionEnabled = false
         
         textFieldAnswer.inputAccessoryView = toolBar
-        textFieldPicker.inputAccessoryView = toolBar // тут, кажется, всё сломано
+        textFieldPicker.inputAccessoryView = toolBar
     }
     
     @objc func doneButtonAction() {
@@ -205,3 +156,24 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
 
 }
 
+extension ViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return PickOption.allCases.count + 1
+    }
+}
+
+extension ViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return row > 0 ? PickOption.allCases[row - 1].localizedName : nil
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let option = self.currentPickOption
+        textFieldPicker.text = option?.localizedName ?? "Choose one answer..."
+        answerView?.isHidden = option != .some(.OK)
+    }
+}
