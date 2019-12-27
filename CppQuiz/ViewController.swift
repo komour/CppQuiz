@@ -69,7 +69,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        textFieldPicker.delegate = self
+        textFieldAnswer.delegate = self
         answerView = verticalStackView.arrangedSubviews[1]
         answerView!.isHidden = true
         setupTextFields()
@@ -87,7 +88,7 @@ class ViewController: UIViewController {
     @objc private func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
+                self.view.frame.origin.y -= keyboardSize.height + additionalHeight
             }
         }
     }
@@ -114,8 +115,7 @@ class ViewController: UIViewController {
     
     @IBAction func skipButton() {
         let randomQuestion = questionList.randomElement()!
-        crutch = false
-        answerButtonOutlet.setTitle("Answer", for: .normal)
+        
         displayQuestion(forQuestion: randomQuestion)
         self.view.backgroundColor = UIColor.systemBackground
     }
@@ -164,9 +164,10 @@ class ViewController: UIViewController {
         skipButton()
     }
     
-    
+    let TOOLBAR_HEIGHT: CGFloat = 30
+    var additionalHeight: CGFloat = 0
     private func setupTextFields() {
-        let toolBar = UIToolbar(frame: CGRect(origin: .zero, size: .init(width: view.frame.size.width, height: 30)))
+        let toolBar = UIToolbar(frame: CGRect(origin: .zero, size: .init(width: view.frame.size.width, height: TOOLBAR_HEIGHT)))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(title: "Done", style: .done
             , target: self, action: #selector(doneButtonAction))
@@ -216,5 +217,17 @@ extension ViewController: UIPickerViewDelegate {
         let option = self.currentPickOption
         textFieldPicker.text = option?.localizedName ?? "Choose one answer..."
         answerView?.isHidden = option != .some(.OK)
+    }
+}
+
+@available(iOS 13.0, *)
+extension ViewController: UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == textFieldAnswer {
+            self.additionalHeight = TOOLBAR_HEIGHT
+        } else {
+            self.additionalHeight = 0 as CGFloat
+        }
+        return true
     }
 }
