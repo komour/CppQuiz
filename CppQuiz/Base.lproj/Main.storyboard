@@ -185,7 +185,7 @@
                                 </subviews>
                             </stackView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" maximumZoomScale="2" keyboardDismissMode="onDrag" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Pf-Yh-DNE">
-                                <rect key="frame" x="5" y="88" width="404" height="599"/>
+                                <rect key="frame" x="5" y="93" width="404" height="594"/>
                                 <color key="backgroundColor" red="0.94010243207160982" green="0.93426328653079227" blue="0.94594157761242725" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <attributedString key="attributedText">
                                     <fragment content="placeholder for question body">
@@ -200,7 +200,7 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="6Pf-Yh-DNE" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="9km-eH-qI6"/>
+                            <constraint firstItem="6Pf-Yh-DNE" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="5" id="9km-eH-qI6"/>
                             <constraint firstItem="6Pf-Yh-DNE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="ATC-ch-NDq"/>
                             <constraint firstItem="Q0Z-bm-6ce" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Bfg-DM-ODU"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6Pf-Yh-DNE" secondAttribute="trailing" constant="5" id="Q5Q-0h-TXZ"/>
@@ -212,8 +212,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="rcF-61-15h"/>
                     <connections>
+                        <outlet property="answerButtonOutlet" destination="SI0-Kc-FVF" id="zY2-bH-Vnm"/>
+                        <outlet property="giveUpButtonOutlet" destination="Aug-aj-jAY" id="2Dx-jb-fSi"/>
+                        <outlet property="hintButtonOutlet" destination="XhK-QC-O0N" id="e6T-h5-HcC"/>
                         <outlet property="navigationBar" destination="rcF-61-15h" id="N6e-Bf-GQd"/>
                         <outlet property="questionTextView" destination="6Pf-Yh-DNE" id="SiC-gX-Dof"/>
+                        <outlet property="skipButtonOutlet" destination="b1A-IS-gti" id="jGp-7Z-6ff"/>
                         <outlet property="textFieldAnswer" destination="lOD-KA-vHq" id="yoB-1j-Rhe"/>
                         <outlet property="textFieldPicker" destination="jca-bK-LsT" id="Rvr-s0-fnC"/>
                         <outlet property="verticalStackView" destination="Q0Z-bm-6ce" id="tfY-P3-1c4"/>

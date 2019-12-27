@@ -8,6 +8,7 @@
 
 import UIKit
 
+@available(iOS 13.0, *)
 class ViewController: UIViewController {
     enum PickOption: CaseIterable {
         case OK
@@ -40,6 +41,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var verticalStackView: UIStackView!
 
     private var curQuestion: Question!
+    private var crutch = false
 
 //    private var favoriteQuestionList = [Question]()
     private var questionList: [Question] = {
@@ -67,7 +69,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
         
         answerView = verticalStackView.arrangedSubviews[1]
         answerView!.isHidden = true
@@ -100,6 +101,10 @@ class ViewController: UIViewController {
     }
     
     
+    @IBOutlet weak var skipButtonOutlet: UIButton!
+    @IBOutlet weak var hintButtonOutlet: UIButton!
+    @IBOutlet weak var giveUpButtonOutlet: UIButton!
+    @IBOutlet weak var answerButtonOutlet: UIButton!
     
     private func displayQuestion(forQuestion question: Question) {
         questionTextView.text = question.questionBody
@@ -110,9 +115,18 @@ class ViewController: UIViewController {
     @IBAction func skipButton() {
         let randomQuestion = questionList.randomElement()!
         displayQuestion(forQuestion: randomQuestion)
+        self.view.backgroundColor = UIColor.systemBackground
     }
     
+    
+    
     @IBAction func answerButton() {
+        if crutch {
+            skipButton()
+            crutch = false
+            answerButtonOutlet.setTitle("Answer", for: .normal)
+            return
+        }
         let answer = self.currentPickOption?.answer(textFieldPicker.text ?? "")
         if answer == curQuestion.correctAnswer {
 //            print("Correct Answer!")
@@ -122,7 +136,9 @@ class ViewController: UIViewController {
             self.view.addSubview(rightPopUpVC.view)
             rightPopUpVC.didMove(toParent: self)
             
-            displayQuestion(forQuestion: questionList.randomElement()!)
+            answerButtonOutlet.setTitle("Next!", for: .normal)
+            self.view.backgroundColor = UIColor.green
+            crutch = true
             
         } else {
             let wrongPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "WrongPopUpVC")
@@ -130,7 +146,8 @@ class ViewController: UIViewController {
             wrongPopUpVC.view.frame = self.view.frame
             self.view.addSubview(wrongPopUpVC.view)
             wrongPopUpVC.didMove(toParent: self)
-            print("Wrong Answer!")
+            self.view.backgroundColor = UIColor.systemPink
+//            print("Wrong Answer!")
         }
     }
     
@@ -153,6 +170,10 @@ class ViewController: UIViewController {
         questionTextView.isEditable = false
         questionTextView.isScrollEnabled = true
         
+        answerButtonOutlet.backgroundColor = UIColor.white
+        giveUpButtonOutlet.backgroundColor = UIColor.white
+        hintButtonOutlet.backgroundColor = UIColor.white
+        skipButtonOutlet.backgroundColor = UIColor.white
         
         
         textFieldAnswer.inputAccessoryView = toolBar
@@ -166,6 +187,7 @@ class ViewController: UIViewController {
 }
 
 
+@available(iOS 13.0, *)
 extension ViewController: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         1
@@ -176,6 +198,7 @@ extension ViewController: UIPickerViewDataSource {
     }
 }
 
+@available(iOS 13.0, *)
 extension ViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return row > 0 ? PickOption.allCases[row - 1].localizedName : nil
