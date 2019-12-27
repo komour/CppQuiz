@@ -18,6 +18,7 @@ struct Question {
 
     var correctAnswer: Answer
     var questionBody: String
+    var hint: String
     var questionNumber: Int
     
     

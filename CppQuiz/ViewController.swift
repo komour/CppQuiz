@@ -50,7 +50,7 @@ class ViewController: UIViewController {
 
         return (0...Int.random(in: 3...9)).map { _ in
             Question(correctAnswer: PickOption.allCases.randomElement()!.answer("test"),
-                     questionBody: randomString(length: .random(in: 42...1000)), questionNumber: .random(in: 42...1000))
+                     questionBody: randomString(length: .random(in: 42...1000)), hint: "none", questionNumber: .random(in: 42...1000))
         }
     }()
     
@@ -98,13 +98,6 @@ class ViewController: UIViewController {
             self.view.frame.origin.y = 0
         }
     }
-
-//    private func textViewShouldBeginEditing(textField: UITextView) -> Bool {
-//        if textField == questionTextView {
-//            return false;
-//        }
-//        return true
-//    }
     
     
     
@@ -118,13 +111,25 @@ class ViewController: UIViewController {
         let randomQuestion = questionList.randomElement()!
         displayQuestion(forQuestion: randomQuestion)
     }
-
+    
     @IBAction func answerButton() {
         let answer = self.currentPickOption?.answer(textFieldPicker.text ?? "")
         if answer == curQuestion.correctAnswer {
-            print("Correct Answer!")
+//            print("Correct Answer!")
+            let rightPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "RightPopUpVC")
+            self.addChild(rightPopUpVC)
+            rightPopUpVC.view.frame = self.view.frame
+            self.view.addSubview(rightPopUpVC.view)
+            rightPopUpVC.didMove(toParent: self)
+            
             displayQuestion(forQuestion: questionList.randomElement()!)
+            
         } else {
+            let wrongPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "WrongPopUpVC")
+            self.addChild(wrongPopUpVC)
+            wrongPopUpVC.view.frame = self.view.frame
+            self.view.addSubview(wrongPopUpVC.view)
+            wrongPopUpVC.didMove(toParent: self)
             print("Wrong Answer!")
         }
     }
@@ -147,10 +152,8 @@ class ViewController: UIViewController {
         
         questionTextView.isEditable = false
         questionTextView.isScrollEnabled = true
-//        questionTextView.font = [UIFont size:25]
         
         
-//        questionTextView.isUserInteractionEnabled = false
         
         textFieldAnswer.inputAccessoryView = toolBar
         textFieldPicker.inputAccessoryView = toolBar

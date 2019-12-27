@@ -16,6 +16,8 @@
 		C50922542360E217002C9B1D /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50922532360E217002C9B1D /* Question.swift */; };
 		C5A95BB523B57BD000331F6E /* MyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A95BB423B57BD000331F6E /* MyTableViewController.swift */; };
 		C5A95BB723B5819600331F6E /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A95BB623B5819600331F6E /* AboutViewController.swift */; };
+		C5A95BB923B592F100331F6E /* RightPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A95BB823B592F100331F6E /* RightPopUpVC.swift */; };
+		C5A95BBE23B59C7000331F6E /* WrongPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A95BBD23B59C7000331F6E /* WrongPopUpVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		C50922532360E217002C9B1D /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		C5A95BB423B57BD000331F6E /* MyTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableViewController.swift; sourceTree = "<group>"; };
 		C5A95BB623B5819600331F6E /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		C5A95BB823B592F100331F6E /* RightPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightPopUpVC.swift; sourceTree = "<group>"; };
+		C5A95BBD23B59C7000331F6E /* WrongPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongPopUpVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,9 +68,8 @@
 			children = (
 				C509223F235CE3D4002C9B1D /* AppDelegate.swift */,
 				C5092241235CE3D4002C9B1D /* SceneDelegate.swift */,
-				C5A95BB423B57BD000331F6E /* MyTableViewController.swift */,
-				C5A95BB623B5819600331F6E /* AboutViewController.swift */,
 				C5092243235CE3D4002C9B1D /* ViewController.swift */,
+				C5A95BBC23B5936600331F6E /* ViewControllers */,
 				C50922532360E217002C9B1D /* Question.swift */,
 				C5092245235CE3D4002C9B1D /* Main.storyboard */,
 				C5092248235CE3D9002C9B1D /* Assets.xcassets */,
@@ -74,6 +77,17 @@
 				C509224D235CE3D9002C9B1D /* Info.plist */,
 			);
 			path = CppQuiz;
+			sourceTree = "<group>";
+		};
+		C5A95BBC23B5936600331F6E /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C5A95BB623B5819600331F6E /* AboutViewController.swift */,
+				C5A95BB423B57BD000331F6E /* MyTableViewController.swift */,
+				C5A95BBD23B59C7000331F6E /* WrongPopUpVC.swift */,
+				C5A95BB823B592F100331F6E /* RightPopUpVC.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,10 +163,12 @@
 			files = (
 				C5092244235CE3D4002C9B1D /* ViewController.swift in Sources */,
 				C50922542360E217002C9B1D /* Question.swift in Sources */,
+				C5A95BB923B592F100331F6E /* RightPopUpVC.swift in Sources */,
 				C5A95BB523B57BD000331F6E /* MyTableViewController.swift in Sources */,
 				C5A95BB723B5819600331F6E /* AboutViewController.swift in Sources */,
 				C5092240235CE3D4002C9B1D /* AppDelegate.swift in Sources */,
 				C5092242235CE3D4002C9B1D /* SceneDelegate.swift in Sources */,
+				C5A95BBE23B59C7000331F6E /* WrongPopUpVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
