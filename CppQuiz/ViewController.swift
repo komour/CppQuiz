@@ -57,7 +57,7 @@ class ViewController: UIViewController {
     }()
     
 
-    var someText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    let someText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     
     var answerView : UIView? = nil
     let pickerView = UIPickerView()
@@ -66,11 +66,10 @@ class ViewController: UIViewController {
         return row > 0 ? PickOption.allCases[row - 1] : nil
     }
 
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        textFieldPicker.delegate = self
-        textFieldAnswer.delegate = self
         answerView = verticalStackView.arrangedSubviews[1]
         answerView!.isHidden = true
         setupTextFields()
@@ -86,18 +85,21 @@ class ViewController: UIViewController {
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height + additionalHeight
-            }
+        if bottomConstraint.constant == DEFAULT_CONSTRAINT_BOT {
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+                
+                bottomConstraint.constant = keyboardSize.height + TOOLBAR_HEIGHT + DEFAULT_CONSTRAINT_BOT
+            } //else {
+//                 bottomConstraint.constant = 100
+//            }
         }
     }
     
     
 
     @objc private func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
+        if bottomConstraint.constant != DEFAULT_CONSTRAINT_BOT {
+            bottomConstraint.constant = DEFAULT_CONSTRAINT_BOT
         }
     }
     
@@ -137,7 +139,6 @@ class ViewController: UIViewController {
         
         let answer = self.currentPickOption?.answer(textFieldAnswer.text ?? "")
         if answer == curQuestion.correctAnswer {
-//            print("Correct Answer!")
             let rightPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "RightPopUpVC")
             self.addChild(rightPopUpVC)
             rightPopUpVC.view.frame = self.view.frame
@@ -155,7 +156,6 @@ class ViewController: UIViewController {
             self.view.addSubview(wrongPopUpVC.view)
             wrongPopUpVC.didMove(toParent: self)
             self.view.backgroundColor = UIColor.systemPink
-//            print("Wrong Answer!")
         }
     }
     
@@ -165,7 +165,7 @@ class ViewController: UIViewController {
     }
     
     let TOOLBAR_HEIGHT: CGFloat = 30
-    var additionalHeight: CGFloat = 0
+    let DEFAULT_CONSTRAINT_BOT: CGFloat = 10
     private func setupTextFields() {
         let toolBar = UIToolbar(frame: CGRect(origin: .zero, size: .init(width: view.frame.size.width, height: TOOLBAR_HEIGHT)))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -217,17 +217,5 @@ extension ViewController: UIPickerViewDelegate {
         let option = self.currentPickOption
         textFieldPicker.text = option?.localizedName ?? "Choose one answer..."
         answerView?.isHidden = option != .some(.OK)
-    }
-}
-
-@available(iOS 13.0, *)
-extension ViewController: UITextFieldDelegate {
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField == textFieldAnswer {
-            self.additionalHeight = TOOLBAR_HEIGHT
-        } else {
-            self.additionalHeight = 0 as CGFloat
-        }
-        return true
     }
 }

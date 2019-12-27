@@ -273,6 +273,7 @@
                     <navigationItem key="navigationItem" id="rcF-61-15h"/>
                     <connections>
                         <outlet property="answerButtonOutlet" destination="SI0-Kc-FVF" id="zY2-bH-Vnm"/>
+                        <outlet property="bottomConstraint" destination="fTf-M0-5vb" id="gC3-Fx-m0D"/>
                         <outlet property="giveUpButtonOutlet" destination="Aug-aj-jAY" id="2Dx-jb-fSi"/>
                         <outlet property="hintButtonOutlet" destination="XhK-QC-O0N" id="e6T-h5-HcC"/>
                         <outlet property="navigationBar" destination="rcF-61-15h" id="N6e-Bf-GQd"/>
