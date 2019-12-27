@@ -41,7 +41,7 @@ class ViewController: UIViewController {
 
     private var curQuestion: Question!
 
-    private var favoriteQuestionList = [Question]()
+//    private var favoriteQuestionList = [Question]()
     private var questionList: [Question] = {
         func randomString(length: Int) -> String {
           let letters = "abcdefghijkl mnopqrstuvwxyz ABCDEFGHIJKLMN OPQRSTUVWXYZ 0123456789"
@@ -50,9 +50,10 @@ class ViewController: UIViewController {
 
         return (0...Int.random(in: 3...9)).map { _ in
             Question(correctAnswer: PickOption.allCases.randomElement()!.answer("test"),
-                     questionBody: randomString(length: .random(in: 42...1000)))
+                     questionBody: randomString(length: .random(in: 42...1000)), questionNumber: .random(in: 42...1000))
         }
     }()
+    
 
     var someText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     
@@ -66,15 +67,18 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
+        
         answerView = verticalStackView.arrangedSubviews[1]
         answerView!.isHidden = true
         setupTextFields()
         self.pickerView.delegate = self
         self.pickerView.dataSource = self
-//        questionTextView.delegate = self
+        
+
         textFieldPicker.inputView = pickerView
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil) // А отписаться?)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         displayQuestion(forQuestion: self.questionList.first!)
     }
@@ -83,7 +87,6 @@ class ViewController: UIViewController {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height
-                //TODO: Если экран сверстан на автолейауте, то и изменения нужно делать в констрэинтах, иначе следующий-же цикл пересчета верстки сбросит отступ обратно в ноль
             }
         }
     }
@@ -96,15 +99,18 @@ class ViewController: UIViewController {
         }
     }
 
-    private func textViewShouldBeginEditing(textField: UITextView) -> Bool {
-        if textField == questionTextView {
-            return false;
-        }
-        return true
-    }
+//    private func textViewShouldBeginEditing(textField: UITextView) -> Bool {
+//        if textField == questionTextView {
+//            return false;
+//        }
+//        return true
+//    }
+    
+    
     
     private func displayQuestion(forQuestion question: Question) {
         questionTextView.text = question.questionBody
+        navigationBar.title = "Question #\(question.questionNumber)"
         curQuestion = question
     }
     
@@ -123,6 +129,7 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var navigationBar: UINavigationItem!
     @IBAction func giveUpButton() {
         skipButton()
     }
@@ -140,7 +147,6 @@ class ViewController: UIViewController {
         
         questionTextView.isEditable = false
         questionTextView.isScrollEnabled = true
-        questionTextView.text = "placeHolder for text"
 //        questionTextView.font = [UIFont size:25]
         
         
@@ -155,6 +161,7 @@ class ViewController: UIViewController {
     }
 
 }
+
 
 extension ViewController: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

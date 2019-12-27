@@ -18,7 +18,7 @@ struct Question {
 
     var correctAnswer: Answer
     var questionBody: String
+    var questionNumber: Int
     
     
-    // Было бы неплохо эту часть экрана таки сделать :)
 }
