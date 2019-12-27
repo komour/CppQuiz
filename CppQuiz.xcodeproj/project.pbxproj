@@ -18,6 +18,7 @@
 		C5A95BB723B5819600331F6E /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A95BB623B5819600331F6E /* AboutViewController.swift */; };
 		C5A95BB923B592F100331F6E /* RightPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A95BB823B592F100331F6E /* RightPopUpVC.swift */; };
 		C5A95BBE23B59C7000331F6E /* WrongPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A95BBD23B59C7000331F6E /* WrongPopUpVC.swift */; };
+		C5A95BC023B5B51F00331F6E /* HintPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A95BBF23B5B51F00331F6E /* HintPopUpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		C5A95BB623B5819600331F6E /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		C5A95BB823B592F100331F6E /* RightPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightPopUpVC.swift; sourceTree = "<group>"; };
 		C5A95BBD23B59C7000331F6E /* WrongPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongPopUpVC.swift; sourceTree = "<group>"; };
+		C5A95BBF23B5B51F00331F6E /* HintPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintPopUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				C5A95BB423B57BD000331F6E /* MyTableViewController.swift */,
 				C5A95BBD23B59C7000331F6E /* WrongPopUpVC.swift */,
 				C5A95BB823B592F100331F6E /* RightPopUpVC.swift */,
+				C5A95BBF23B5B51F00331F6E /* HintPopUpViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -168,6 +171,7 @@
 				C5A95BB723B5819600331F6E /* AboutViewController.swift in Sources */,
 				C5092240235CE3D4002C9B1D /* AppDelegate.swift in Sources */,
 				C5092242235CE3D4002C9B1D /* SceneDelegate.swift in Sources */,
+				C5A95BC023B5B51F00331F6E /* HintPopUpViewController.swift in Sources */,
 				C5A95BBE23B59C7000331F6E /* WrongPopUpVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

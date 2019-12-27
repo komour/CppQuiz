@@ -119,6 +119,13 @@ class ViewController: UIViewController {
     }
     
     
+    @IBAction func hintButton() {
+        let hintPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "HintPopUpVC")
+        self.addChild(hintPopUpVC)
+        hintPopUpVC.view.frame = self.view.frame
+        self.view.addSubview(hintPopUpVC.view)
+        hintPopUpVC.didMove(toParent: self)
+    }
     
     @IBAction func answerButton() {
         if crutch {

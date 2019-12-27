@@ -8,6 +8,63 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Hint Pop Up View Controller-->
+        <scene sceneID="UAh-mK-bH3">
+            <objects>
+                <viewController storyboardIdentifier="HintPopUpVC" id="jtm-uP-Mhg" customClass="HintPopUpViewController" customModule="CppQuiz" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3KT-cX-ok5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rdk-Yy-hua">
+                                <rect key="frame" x="46" y="253" width="322" height="400"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6A8-QD-eOa">
+                                        <rect key="frame" x="0.0" y="0.0" width="322" height="346"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dVA-vO-1oc">
+                                        <rect key="frame" x="146" y="356" width="30" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="S2C-K6-KRS"/>
+                                        </constraints>
+                                        <state key="normal" title="OK">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="closePopUpButton" destination="jtm-uP-Mhg" eventType="touchUpInside" id="gNR-1W-wjb"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="dVA-vO-1oc" secondAttribute="bottom" id="4Zr-uH-4mL"/>
+                                    <constraint firstAttribute="height" constant="400" id="BlQ-PO-uHq"/>
+                                    <constraint firstItem="6A8-QD-eOa" firstAttribute="top" secondItem="rdk-Yy-hua" secondAttribute="top" id="NmQ-UZ-cNR"/>
+                                    <constraint firstItem="dVA-vO-1oc" firstAttribute="centerX" secondItem="rdk-Yy-hua" secondAttribute="centerX" id="T7E-03-ngg"/>
+                                    <constraint firstItem="6A8-QD-eOa" firstAttribute="leading" secondItem="rdk-Yy-hua" secondAttribute="leading" id="UA2-ja-wxn"/>
+                                    <constraint firstAttribute="trailing" secondItem="6A8-QD-eOa" secondAttribute="trailing" id="h8Q-Kp-AMX"/>
+                                    <constraint firstItem="dVA-vO-1oc" firstAttribute="top" secondItem="6A8-QD-eOa" secondAttribute="bottom" constant="10" id="how-4V-oQK"/>
+                                    <constraint firstAttribute="width" constant="322" id="xT3-PP-e8R"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="rdk-Yy-hua" firstAttribute="centerY" secondItem="yaJ-Xv-kJW" secondAttribute="centerY" id="9mV-Sf-xiv"/>
+                            <constraint firstItem="rdk-Yy-hua" firstAttribute="centerX" secondItem="yaJ-Xv-kJW" secondAttribute="centerX" id="l32-Ep-d7R"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="yaJ-Xv-kJW"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="euE-kP-CSs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2639.130434782609" y="1362.7232142857142"/>
+        </scene>
         <!--Wrong Pop UpVC-->
         <scene sceneID="9bY-dG-8Vo">
             <objects>
@@ -19,8 +76,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dHA-QP-vdS">
                                 <rect key="frame" x="87" y="333" width="240" height="240"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sYm-J6-9My">
-                                        <rect key="frame" x="8" y="206" width="224" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sYm-J6-9My">
+                                        <rect key="frame" x="100.66666666666666" y="206" width="39" height="30"/>
                                         <state key="normal" title="Close">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -30,8 +87,8 @@
                                             <action selector="closePopUpVutton" destination="5AS-2h-ygd" eventType="touchUpInside" id="p3S-un-Af1"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Wrong answer!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMa-gQ-OF2">
-                                        <rect key="frame" x="63" y="101" width="115" height="38"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wrong answer!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMa-gQ-OF2">
+                                        <rect key="frame" x="62.666666666666657" y="110" width="115" height="20.333333333333343"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -59,7 +116,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WRT-ph-sqx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="5AS-2h-ygd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-1907.2463768115942" y="1362.7232142857142"/>
+            <point key="canvasLocation" x="-1935" y="1359"/>
         </scene>
         <!--Right Pop UpVC-->
         <scene sceneID="Vye-A0-h59">
@@ -72,8 +129,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84k-EL-KnK">
                                 <rect key="frame" x="87" y="328" width="240" height="240"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PA8-Jj-mWe">
-                                        <rect key="frame" x="10" y="202" width="220" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PA8-Jj-mWe">
+                                        <rect key="frame" x="100.66666666666666" y="206" width="39" height="30"/>
                                         <state key="normal" title="Close">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -168,6 +225,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XhK-QC-O0N">
                                                 <rect key="frame" x="126.33333333333334" y="0.0" width="121.33333333333334" height="30"/>
                                                 <state key="normal" title="Hint"/>
+                                                <connections>
+                                                    <action selector="hintButton" destination="BYZ-38-t0r" eventType="touchUpInside" id="aUK-5z-cVO"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b1A-IS-gti">
                                                 <rect key="frame" x="252.66666666666671" y="0.0" width="121.33333333333334" height="30"/>
