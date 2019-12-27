@@ -50,7 +50,7 @@ class ViewController: UIViewController {
           return String((0..<length).map{ _ in letters.randomElement()! })
         }
 
-        return (0...Int.random(in: 3...9)).map { _ in
+        return (0...Int.random(in: 3...99)).map { _ in
             Question(correctAnswer: PickOption.allCases.randomElement()!.answer("test"),
                      questionBody: randomString(length: .random(in: 42...1000)), hint: "none", questionNumber: .random(in: 42...1000))
         }
@@ -127,7 +127,8 @@ class ViewController: UIViewController {
             answerButtonOutlet.setTitle("Answer", for: .normal)
             return
         }
-        let answer = self.currentPickOption?.answer(textFieldPicker.text ?? "")
+        
+        let answer = self.currentPickOption?.answer(textFieldAnswer.text ?? "")
         if answer == curQuestion.correctAnswer {
 //            print("Correct Answer!")
             let rightPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "RightPopUpVC")
