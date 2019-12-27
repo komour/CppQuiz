@@ -92,6 +92,9 @@ class ViewController: UIViewController {
             } //else {
 //                 bottomConstraint.constant = 100
 //            }
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
+                self.view.layoutIfNeeded()
+            }, completion: nil)
         }
     }
     
@@ -101,6 +104,9 @@ class ViewController: UIViewController {
         if bottomConstraint.constant != DEFAULT_CONSTRAINT_BOT {
             bottomConstraint.constant = DEFAULT_CONSTRAINT_BOT
         }
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     
