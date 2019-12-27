@@ -50,7 +50,7 @@ class ViewController: UIViewController {
           return String((0..<length).map{ _ in letters.randomElement()! })
         }
 
-        return (0...Int.random(in: 3...99)).map { _ in
+        return (0...Int.random(in: 3...9)).map { _ in
             Question(correctAnswer: PickOption.allCases.randomElement()!.answer("test"),
                      questionBody: randomString(length: .random(in: 42...1000)), hint: "none", questionNumber: .random(in: 42...1000))
         }
@@ -114,6 +114,8 @@ class ViewController: UIViewController {
     
     @IBAction func skipButton() {
         let randomQuestion = questionList.randomElement()!
+        crutch = false
+        answerButtonOutlet.setTitle("Answer", for: .normal)
         displayQuestion(forQuestion: randomQuestion)
         self.view.backgroundColor = UIColor.systemBackground
     }
@@ -130,8 +132,6 @@ class ViewController: UIViewController {
     @IBAction func answerButton() {
         if crutch {
             skipButton()
-            crutch = false
-            answerButtonOutlet.setTitle("Answer", for: .normal)
             return
         }
         
