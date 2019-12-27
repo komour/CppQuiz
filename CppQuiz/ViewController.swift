@@ -125,6 +125,8 @@ class ViewController: UIViewController {
         let randomQuestion = questionList.randomElement()!
         
         displayQuestion(forQuestion: randomQuestion)
+        crutch = false
+        self.answerButtonOutlet.setTitle("Answer", for: .normal)
         self.view.backgroundColor = UIColor.systemBackground
     }
     
@@ -222,7 +224,6 @@ extension ViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let option = self.currentPickOption
         textFieldPicker.text = option?.localizedName ?? "Choose one answer..."
-//        answerView?.isHidden = option != .some(.OK)
         if option != .OK {
             answerView?.hideAnimated(in: verticalStackView)
         } else {
