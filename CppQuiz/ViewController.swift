@@ -60,6 +60,8 @@ class ViewController: UIViewController {
     let someText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     
     var answerView : UIView? = nil
+    var wrongAnswerView : UIView? = nil
+    var rightAnswerView : UIView? = nil
     let pickerView = UIPickerView()
     var currentPickOption: PickOption? {
         let row = self.pickerView.selectedRow(inComponent: 0)
@@ -70,8 +72,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        answerView = verticalStackView.arrangedSubviews[1]
+        answerView = verticalStackView.arrangedSubviews[3]
+        wrongAnswerView = verticalStackView.arrangedSubviews[1]
+        rightAnswerView = verticalStackView.arrangedSubviews[0]
         answerView!.isHidden = true
+        rightAnswerView!.isHidden = true
+        wrongAnswerView!.isHidden = true
         setupTextFields()
         self.pickerView.delegate = self
         self.pickerView.dataSource = self
@@ -85,13 +91,16 @@ class ViewController: UIViewController {
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
+        var value: CGFloat = 0 //compute constraint
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if (self.textFieldAnswer .isFirstResponder) {
+                value = keyboardSize.height + TOOLBAR_HEIGHT + DEFAULT_CONSTRAINT_BOT + 30
+            } else {
+                value = keyboardSize.height + TOOLBAR_HEIGHT + DEFAULT_CONSTRAINT_BOT + 30 //TODO: (useless if) change this to pickerView height
+            }
+        }
         if bottomConstraint.constant == DEFAULT_CONSTRAINT_BOT {
-            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-                
-                bottomConstraint.constant = keyboardSize.height + TOOLBAR_HEIGHT + DEFAULT_CONSTRAINT_BOT
-            } //else {
-//                 bottomConstraint.constant = 100
-//            }
+            bottomConstraint.constant = value //change constraint
             UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
                 self.view.layoutIfNeeded()
             }, completion: nil)
@@ -124,6 +133,8 @@ class ViewController: UIViewController {
     @IBAction func skipButton() {
         let randomQuestion = questionList.randomElement()!
         
+        wrongAnswerView!.hideAnimated(in: verticalStackView)
+        rightAnswerView!.hideAnimated(in: verticalStackView)
         displayQuestion(forQuestion: randomQuestion)
         crutch = false
         self.answerButtonOutlet.setTitle("Answer", for: .normal)
@@ -147,23 +158,28 @@ class ViewController: UIViewController {
         
         let answer = self.currentPickOption?.answer(textFieldAnswer.text ?? "")
         if answer == curQuestion.correctAnswer {
-            let rightPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "RightPopUpVC")
-            self.addChild(rightPopUpVC)
-            rightPopUpVC.view.frame = self.view.frame
-            self.view.addSubview(rightPopUpVC.view)
-            rightPopUpVC.didMove(toParent: self)
+//            let rightPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "RightPopUpVC")
+//            self.addChild(rightPopUpVC)
+//            rightPopUpVC.view.frame = self.view.frame
+//            self.view.addSubview(rightPopUpVC.view)
+//            rightPopUpVC.didMove(toParent: self)
             
             answerButtonOutlet.setTitle("Next!", for: .normal)
-            self.view.backgroundColor = UIColor.green
+            rightAnswerView!.showAnimated(in: verticalStackView)
+            wrongAnswerView!.hideAnimated(in: verticalStackView)
+//            self.view.backgroundColor = UIColor.green
             crutch = true
             
         } else {
-            let wrongPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "WrongPopUpVC")
-            self.addChild(wrongPopUpVC)
-            wrongPopUpVC.view.frame = self.view.frame
-            self.view.addSubview(wrongPopUpVC.view)
-            wrongPopUpVC.didMove(toParent: self)
-            self.view.backgroundColor = UIColor.systemPink
+//            let wrongPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "WrongPopUpVC")
+//            self.addChild(wrongPopUpVC)
+//            wrongPopUpVC.view.frame = self.view.frame
+//            self.view.addSubview(wrongPopUpVC.view)
+//            wrongPopUpVC.didMove(toParent: self)
+//            self.view.backgroundColor = UIColor.systemPink
+            rightAnswerView!.hideAnimated(in: verticalStackView)
+            wrongAnswerView!.showAnimated(in: verticalStackView)
+            wrongAnswerView!.shake()
         }
     }
     
@@ -225,9 +241,9 @@ extension ViewController: UIPickerViewDelegate {
         let option = self.currentPickOption
         textFieldPicker.text = option?.localizedName ?? "Choose one answer..."
         if option != .OK {
-            answerView?.hideAnimated(in: verticalStackView)
+            answerView!.hideAnimated(in: verticalStackView)
         } else {
-            answerView?.showAnimated(in: verticalStackView)
+            answerView!.showAnimated(in: verticalStackView)
         }
     }
 }
@@ -267,4 +283,13 @@ extension UIView {
             )
         }
     }
+    
+    func shake() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
+        animation.duration = 0.6
+        animation.values = [-20, 20, -20, 20, -10, 10, -5, 5, 0]
+        self.layer.add(animation, forKey: "shake")
+    }
 }
+
