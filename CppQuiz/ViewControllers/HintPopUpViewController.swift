@@ -8,14 +8,21 @@
 
 import UIKit
 
+@available(iOS 13.0, *)
 class HintPopUpViewController: UIViewController {
 
-     override func viewDidLoad() {
-            super.viewDidLoad()
-            self.showAnimate()
-            self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            
-        }
+    @IBOutlet weak var hintTextView: UITextView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        hintTextView.isEditable = false
+        hintTextView.isScrollEnabled = true
+        hintTextView.text = ViewController.curQuestion.hint
+        self.showAnimate()
+        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        
+        
+    }
         
     @IBAction func closePopUpButton() {
         removeAnimate()

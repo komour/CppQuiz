@@ -40,24 +40,45 @@ class ViewController: UIViewController {
     @IBOutlet weak var textFieldPicker: UITextField!
     @IBOutlet weak var verticalStackView: UIStackView!
 
-    private var curQuestion: Question!
-    private var crutch = false
-
-//    private var favoriteQuestionList = [Question]()
-    private var questionList: [Question] = {
-        func randomString(length: Int) -> String {
-          let letters = "abcdefghijkl mnopqrstuvwxyz ABCDEFGHIJKLMN OPQRSTUVWXYZ 0123456789"
-          return String((0..<length).map{ _ in letters.randomElement()! })
-        }
-
-        return (0...Int.random(in: 3...9)).map { _ in
-            Question(correctAnswer: PickOption.allCases.randomElement()!.answer("test"),
-                     questionBody: randomString(length: .random(in: 42...1000)), hint: "none", questionNumber: .random(in: 42...1000))
-        }
-    }()
+    public static var curQuestion: Question!
+//    private var crutch = false
+    private var questionJsonList = [QuestionJson]()
+    private var questionList = [Question]()
     
-
-    let someText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    func stringToPickOption(for string: String, with answer: String) -> Question.Answer {
+        switch string {
+        case "OK":
+            return PickOption.OK.answer(answer)
+        case "CE":
+            return PickOption.CE.answer("🥵")
+        case "US":
+            return PickOption.UID.answer("🥵")
+        default:
+            return PickOption.UB.answer("🥵")
+        }
+    }
+    
+    func transform() {
+        for i in 0..<questionJsonList.count {
+            let cur = questionJsonList[i]
+            questionList.append(Question(id: cur.id, questionBody: cur.question, result: stringToPickOption(for: cur.result, with: cur.answer), answer: cur.answer, explanation: cur.explanation, hint: cur.hint, difficulty: cur.difficulty))
+        }
+    }
+    
+    func loadData(completion: @escaping (_ success: Bool) -> Void) {
+        let questionRequest = QuestionRequest()
+        questionRequest.getQuestions { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .failure(let error):
+                    print(error)
+                case .success(let questions):
+                    self!.questionJsonList = questions
+                    completion(true)
+                }
+            }
+        }
+    }
     
     var answerView : UIView? = nil
     var wrongAnswerView : UIView? = nil
@@ -72,6 +93,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+                
         answerView = verticalStackView.arrangedSubviews[3]
         wrongAnswerView = verticalStackView.arrangedSubviews[1]
         rightAnswerView = verticalStackView.arrangedSubviews[0]
@@ -87,8 +109,16 @@ class ViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
-        displayQuestion(forQuestion: self.questionList.first!)
+        self.questionTextView.text = "Loading questions..."
+        self.loadData{
+            (success) -> Void in
+            if success {
+                self.transform()
+                self.displayQuestion(forQuestion: self.questionList.randomElement()!)
+            }
+        }
     }
+
     
     @objc private func keyboardWillShow(notification: NSNotification) {
         var value: CGFloat = 0 //compute constraint
@@ -126,8 +156,8 @@ class ViewController: UIViewController {
     
     private func displayQuestion(forQuestion question: Question) {
         questionTextView.text = question.questionBody
-        navigationBar.title = "Question #\(question.questionNumber)"
-        curQuestion = question
+        navigationBar.title = "Question #\(question.id). Difficulty: \(question.difficulty)"
+        ViewController.curQuestion = question
     }
     
     @IBAction func skipButton() {
@@ -136,7 +166,7 @@ class ViewController: UIViewController {
         wrongAnswerView!.hideAnimated(in: verticalStackView)
         rightAnswerView!.hideAnimated(in: verticalStackView)
         displayQuestion(forQuestion: randomQuestion)
-        crutch = false
+//        crutch = false
         self.answerButtonOutlet.setTitle("Answer", for: .normal)
         self.view.backgroundColor = UIColor.systemBackground
     }
@@ -151,32 +181,15 @@ class ViewController: UIViewController {
     }
     
     @IBAction func answerButton() {
-        if crutch {
-            skipButton()
-            return
-        }
         
         let answer = self.currentPickOption?.answer(textFieldAnswer.text ?? "")
-        if answer == curQuestion.correctAnswer {
-//            let rightPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "RightPopUpVC")
-//            self.addChild(rightPopUpVC)
-//            rightPopUpVC.view.frame = self.view.frame
-//            self.view.addSubview(rightPopUpVC.view)
-//            rightPopUpVC.didMove(toParent: self)
-            
-            answerButtonOutlet.setTitle("Next!", for: .normal)
+        if answer == ViewController.curQuestion.result {
             rightAnswerView!.showAnimated(in: verticalStackView)
             wrongAnswerView!.hideAnimated(in: verticalStackView)
-//            self.view.backgroundColor = UIColor.green
-            crutch = true
-            
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let destination = storyboard.instantiateViewController(withIdentifier: "AnswerView")
+            navigationController?.pushViewController(destination, animated: true)
         } else {
-//            let wrongPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "WrongPopUpVC")
-//            self.addChild(wrongPopUpVC)
-//            wrongPopUpVC.view.frame = self.view.frame
-//            self.view.addSubview(wrongPopUpVC.view)
-//            wrongPopUpVC.didMove(toParent: self)
-//            self.view.backgroundColor = UIColor.systemPink
             rightAnswerView!.hideAnimated(in: verticalStackView)
             wrongAnswerView!.showAnimated(in: verticalStackView)
             wrongAnswerView!.shake()
@@ -185,7 +198,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var navigationBar: UINavigationItem!
     @IBAction func giveUpButton() {
-        skipButton()
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let destination = storyboard.instantiateViewController(withIdentifier: "AnswerView")
+        navigationController?.pushViewController(destination, animated: true)
     }
     
     let TOOLBAR_HEIGHT: CGFloat = 30

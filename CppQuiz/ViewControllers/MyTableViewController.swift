@@ -19,5 +19,5 @@ class MyTableViewController: UITableViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let destination = storyboard.instantiateViewController(withIdentifier: "AboutViewController")
         navigationController?.pushViewController(destination, animated: true)
-        }
+    }
 }

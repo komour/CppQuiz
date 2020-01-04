@@ -60,6 +60,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="yaJ-Xv-kJW"/>
                     </view>
+                    <connections>
+                        <outlet property="hintTextView" destination="6A8-QD-eOa" id="EL0-Wl-f2f"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="euE-kP-CSs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -174,7 +177,7 @@
         <!--Questions-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Questions" id="BYZ-38-t0r" customClass="ViewController" customModule="CppQuiz" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="QuizMain" title="Questions" id="BYZ-38-t0r" customClass="ViewController" customModule="CppQuiz" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -245,7 +248,7 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b1A-IS-gti">
                                                 <rect key="frame" x="252.66666666666671" y="0.0" width="121.33333333333334" height="30"/>
-                                                <state key="normal" title="Skip"/>
+                                                <state key="normal" title="Next"/>
                                                 <connections>
                                                     <action selector="skipButton" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rl0-BK-css"/>
                                                 </connections>
@@ -261,14 +264,7 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" maximumZoomScale="2" keyboardDismissMode="onDrag" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Pf-Yh-DNE">
                                 <rect key="frame" x="5" y="93" width="404" height="545.33333333333337"/>
                                 <color key="backgroundColor" red="0.94010243207160982" green="0.93426328653079227" blue="0.94594157761242725" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="placeholder for question body">
-                                        <attributes>
-                                            <font key="NSFont" size="23" name="Helvetica"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                                <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
                             </textView>
                         </subviews>
@@ -324,7 +320,7 @@
         <!--Questions-->
         <scene sceneID="75K-yg-CYj">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KNf-zB-gTp" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="QuizMainNavigation" automaticallyAdjustsScrollViewInsets="NO" id="KNf-zB-gTp" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Questions" image="questionmark.circle.fill" catalog="system" id="of6-34-vX4"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="uZZ-eS-gkc">
@@ -422,7 +418,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5nL-bu-pMv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1773.913043478261" y="1358.7053571428571"/>
+            <point key="canvasLocation" x="2684.057971014493" y="1358.7053571428571"/>
         </scene>
         <!--Extra-->
         <scene sceneID="qAU-Z6-pyE">
@@ -442,6 +438,85 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TTp-dS-7fc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="853.62318840579712" y="634.82142857142856"/>
+        </scene>
+        <!--Questions-->
+        <scene sceneID="02d-KH-41k">
+            <objects>
+                <viewController storyboardIdentifier="AnswerView" title="Questions" id="asC-tv-Ffw" customClass="AnswerViewController" customModule="CppQuiz" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dj8-B9-cMy">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" maximumZoomScale="2" keyboardDismissMode="onDrag" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5sL-3D-hSx">
+                                <rect key="frame" x="5" y="98" width="404" height="350"/>
+                                <color key="backgroundColor" red="0.9401024321" green="0.93426328650000001" blue="0.94594157759999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="280" id="1PN-Ze-GgY"/>
+                                </constraints>
+                                <attributedString key="attributedText"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="answer label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mDm-eR-tec">
+                                <rect key="frame" x="5" y="383" width="404" height="21"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eZT-xF-D79">
+                                <rect key="frame" x="5" y="409" width="404" height="443"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="eZT-xF-D79" firstAttribute="leading" secondItem="e7q-cT-8Io" secondAttribute="leading" constant="5" id="5yU-EG-3qI"/>
+                            <constraint firstItem="e7q-cT-8Io" firstAttribute="trailing" secondItem="eZT-xF-D79" secondAttribute="trailing" constant="5" id="DIo-jy-ZN6"/>
+                            <constraint firstItem="5sL-3D-hSx" firstAttribute="leading" secondItem="e7q-cT-8Io" secondAttribute="leading" constant="5" id="EOj-4x-HtJ"/>
+                            <constraint firstItem="eZT-xF-D79" firstAttribute="top" secondItem="mDm-eR-tec" secondAttribute="bottom" constant="5" id="FcA-Cc-cVc"/>
+                            <constraint firstItem="mDm-eR-tec" firstAttribute="leading" secondItem="e7q-cT-8Io" secondAttribute="leading" constant="5" id="IuM-T0-zcb"/>
+                            <constraint firstItem="mDm-eR-tec" firstAttribute="top" secondItem="5sL-3D-hSx" secondAttribute="bottom" constant="5" id="XQJ-bM-Mzb"/>
+                            <constraint firstItem="5sL-3D-hSx" firstAttribute="top" secondItem="e7q-cT-8Io" secondAttribute="top" constant="10" id="qbf-1L-2J0"/>
+                            <constraint firstItem="e7q-cT-8Io" firstAttribute="bottom" secondItem="eZT-xF-D79" secondAttribute="bottom" constant="10" id="rAi-e4-neh"/>
+                            <constraint firstItem="e7q-cT-8Io" firstAttribute="trailing" secondItem="5sL-3D-hSx" secondAttribute="trailing" constant="5" id="vGT-K1-6qI"/>
+                            <constraint firstItem="e7q-cT-8Io" firstAttribute="trailing" secondItem="mDm-eR-tec" secondAttribute="trailing" constant="5" id="xrC-FN-Aso"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="e7q-cT-8Io"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Iba-GC-19E"/>
+                    <connections>
+                        <outlet property="answerLabel" destination="mDm-eR-tec" id="ugW-vL-HIr"/>
+                        <outlet property="explanationTextView" destination="eZT-xF-D79" id="xJY-v5-Ov2"/>
+                        <outlet property="navigationBar" destination="Iba-GC-19E" id="Xv3-KB-mQK"/>
+                        <outlet property="navigationItem" destination="Iba-GC-19E" id="P09-X8-hkQ"/>
+                        <outlet property="questionTextView" destination="5sL-3D-hSx" id="fbV-jL-Pk1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="akI-eO-tlm" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1289.8550724637682" y="1358.7053571428571"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="22m-YA-7gP">
+            <objects>
+                <navigationController storyboardIdentifier="AnswerViewNavigation" automaticallyAdjustsScrollViewInsets="NO" id="mll-uQ-sUm" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="b3m-AD-drH">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="asC-tv-Ffw" kind="relationship" relationship="rootViewController" id="LSq-OR-UK3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U7h-u8-Fra" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="379.71014492753625" y="1358.7053571428571"/>
         </scene>
     </scenes>
     <resources>
