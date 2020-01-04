@@ -166,6 +166,7 @@ class ViewController: UIViewController {
         wrongAnswerView!.hideAnimated(in: verticalStackView)
         rightAnswerView!.hideAnimated(in: verticalStackView)
         displayQuestion(forQuestion: randomQuestion)
+        textFieldAnswer.text = ""
 //        crutch = false
         self.answerButtonOutlet.setTitle("Answer", for: .normal)
         self.view.backgroundColor = UIColor.systemBackground
