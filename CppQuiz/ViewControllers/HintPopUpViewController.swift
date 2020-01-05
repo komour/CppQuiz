@@ -17,7 +17,7 @@ class HintPopUpViewController: UIViewController {
         super.viewDidLoad()
         hintTextView.isEditable = false
         hintTextView.isScrollEnabled = true
-        hintTextView.text = ViewController.curQuestion.hint
+        hintTextView.text = "    " + ViewController.curQuestion.hint
         self.showAnimate()
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         

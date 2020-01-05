@@ -103,6 +103,7 @@ class ViewController: UIViewController {
         setupTextFields()
         self.pickerView.delegate = self
         self.pickerView.dataSource = self
+        self.textFieldPicker.delegate = self
         
 
         textFieldPicker.inputView = pickerView
@@ -126,7 +127,7 @@ class ViewController: UIViewController {
             if (self.textFieldAnswer .isFirstResponder) {
                 value = keyboardSize.height + TOOLBAR_HEIGHT + DEFAULT_CONSTRAINT_BOT + 30
             } else {
-                value = keyboardSize.height + TOOLBAR_HEIGHT + DEFAULT_CONSTRAINT_BOT + 30 //TODO: (useless if) change this to pickerView height
+                value = keyboardSize.height + TOOLBAR_HEIGHT + DEFAULT_CONSTRAINT_BOT + 30 //TODO: (useless if)
             }
         }
         if bottomConstraint.constant == DEFAULT_CONSTRAINT_BOT {
@@ -261,6 +262,13 @@ extension ViewController: UIPickerViewDelegate {
         } else {
             answerView!.showAnimated(in: verticalStackView)
         }
+    }
+}
+
+@available(iOS 13.0, *)
+extension ViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        false
     }
 }
 
