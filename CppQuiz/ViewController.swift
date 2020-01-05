@@ -80,6 +80,7 @@ class ViewController: UIViewController {
         }
     }
     
+    var counter = 0
     var answerView : UIView? = nil
     var wrongAnswerView : UIView? = nil
     var rightAnswerView : UIView? = nil
@@ -115,7 +116,8 @@ class ViewController: UIViewController {
             (success) -> Void in
             if success {
                 self.transform()
-                self.displayQuestion(forQuestion: self.questionList.randomElement()!)
+                self.questionList.shuffle()
+                self.displayQuestion(forQuestion: self.questionList.first!)
             }
         }
     }
@@ -161,14 +163,21 @@ class ViewController: UIViewController {
         ViewController.curQuestion = question
     }
     
+    func incrementCounter() {
+        if counter == questionList.count - 1 {
+            questionList.shuffle()
+            counter = 0
+        } else {
+            counter += 1
+        }
+    }
+    
     @IBAction func skipButton() {
-        let randomQuestion = questionList.randomElement()!
-        
         wrongAnswerView!.hideAnimated(in: verticalStackView)
         rightAnswerView!.hideAnimated(in: verticalStackView)
-        displayQuestion(forQuestion: randomQuestion)
+        incrementCounter()
+        displayQuestion(forQuestion: questionList[counter])
         textFieldAnswer.text = ""
-//        crutch = false
         self.answerButtonOutlet.setTitle("Answer", for: .normal)
         self.view.backgroundColor = UIColor.systemBackground
     }
