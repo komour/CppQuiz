@@ -269,8 +269,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="383" height="55"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Go to question" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FRY-Sh-Byd">
-                                                    <rect key="frame" x="18" y="13" width="113" height="45"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Go to question" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FRY-Sh-Byd">
+                                                    <rect key="frame" x="18" y="13" width="165" height="45"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -319,7 +319,7 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kEi-e9-sJg">
                                 <rect key="frame" x="20" y="148.66666666666666" width="374" height="30"/>
-                                <state key="normal" title="Open question by question id!"/>
+                                <state key="normal" title="Open question by its id!"/>
                                 <connections>
                                     <action selector="goToQuestionByIdButton" destination="fr3-CO-VDp" eventType="touchUpInside" id="xJ1-U8-CWu"/>
                                 </connections>
