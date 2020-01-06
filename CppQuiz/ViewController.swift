@@ -41,7 +41,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var verticalStackView: UIStackView!
 
     public static var curQuestion: Question!
-//    private var crutch = false
     private var questionJsonList = [QuestionJson]()
     private var questionList = [Question]()
     
@@ -107,6 +106,7 @@ class ViewController: UIViewController {
         self.textFieldPicker.delegate = self
         
 
+        
         textFieldPicker.inputView = pickerView
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -116,12 +116,28 @@ class ViewController: UIViewController {
             (success) -> Void in
             if success {
                 self.transform()
-                self.questionList.shuffle()
-                self.displayQuestion(forQuestion: self.questionList.first!)
+                //self.questionList.shuffle()
+                
+                if UserDefaults.standard.value(forKey: "curQuestionId") == nil {
+                    self.displayQuestion(forQuestion: self.questionList.first!)
+                    UserDefaults.standard.set(self.questionList.first!.id, forKey: "curQuestionId")
+                } else {
+                    let index = self.searchQuestionIndex(withId: UserDefaults.standard.value(forKey: "curQuestionId") as! Int)
+                    self.counter = index
+                    self.displayQuestion(forQuestion: self.questionList[index])
+                }
             }
         }
     }
 
+    func searchQuestionIndex(withId id: Int) -> Int {
+        for i in 0..<questionList.count {
+            if questionList[i].id == id {
+                return i
+            }
+        }
+        return 1
+    }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
         var value: CGFloat = 0 //compute constraint
@@ -159,8 +175,9 @@ class ViewController: UIViewController {
     
     private func displayQuestion(forQuestion question: Question) {
         questionTextView.text = question.questionBody
-        navigationBar.title = "Question #\(question.id). Difficulty: \(question.difficulty)"
+        navigationBar.title = "Question #\(question.id). Difficulty: \(question.difficulty). \(counter + 1)/\(questionList.count)"
         ViewController.curQuestion = question
+        UserDefaults.standard.set(ViewController.curQuestion.id, forKey: "curQuestionId")
     }
     
     func incrementCounter() {
