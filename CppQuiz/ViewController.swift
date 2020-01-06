@@ -117,6 +117,7 @@ class ViewController: UIViewController {
             if success {
                 self.transform()
                 if UserDefaults.standard.value(forKey: "curQuestionId") == nil {
+                    ViewController.curIndex = 0
                     self.displayQuestion(forQuestion: self.questionList.first!)
                     UserDefaults.standard.set(self.questionList.first!.id, forKey: "curQuestionId")
                 } else {
