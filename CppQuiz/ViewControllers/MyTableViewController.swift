@@ -17,7 +17,15 @@ class MyTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let destination = storyboard.instantiateViewController(withIdentifier: "AboutViewController")
-        navigationController?.pushViewController(destination, animated: true)
+        switch indexPath.row {
+        case 0:
+            let destination = storyboard.instantiateViewController(withIdentifier: "AboutViewController")
+            navigationController?.pushViewController(destination, animated: true)
+        case 1:
+            let destination = storyboard.instantiateViewController(withIdentifier: "GoToQuesionViewController")
+            navigationController?.pushViewController(destination, animated: true)
+        default:
+            print("default switch case in tableView dedSelectRowAt\n")
+        }
     }
 }

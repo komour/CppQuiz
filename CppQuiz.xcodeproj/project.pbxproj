@@ -14,6 +14,7 @@
 		C5092249235CE3D9002C9B1D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5092248235CE3D9002C9B1D /* Assets.xcassets */; };
 		C509224C235CE3D9002C9B1D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C509224A235CE3D9002C9B1D /* LaunchScreen.storyboard */; };
 		C50922542360E217002C9B1D /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50922532360E217002C9B1D /* Question.swift */; };
+		C586CBB623C3D1FD00F9FFAC /* GoToQuesionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C586CBB523C3D1FD00F9FFAC /* GoToQuesionViewController.swift */; };
 		C5A95BB523B57BD000331F6E /* MyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A95BB423B57BD000331F6E /* MyTableViewController.swift */; };
 		C5A95BB723B5819600331F6E /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A95BB623B5819600331F6E /* AboutViewController.swift */; };
 		C5A95BC023B5B51F00331F6E /* HintPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A95BBF23B5B51F00331F6E /* HintPopUpViewController.swift */; };
@@ -31,6 +32,7 @@
 		C509224B235CE3D9002C9B1D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C509224D235CE3D9002C9B1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C50922532360E217002C9B1D /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
+		C586CBB523C3D1FD00F9FFAC /* GoToQuesionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoToQuesionViewController.swift; sourceTree = "<group>"; };
 		C5A95BB423B57BD000331F6E /* MyTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableViewController.swift; sourceTree = "<group>"; };
 		C5A95BB623B5819600331F6E /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		C5A95BBF23B5B51F00331F6E /* HintPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintPopUpViewController.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 		C5A95BBC23B5936600331F6E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				C586CBB523C3D1FD00F9FFAC /* GoToQuesionViewController.swift */,
 				C5A95BB623B5819600331F6E /* AboutViewController.swift */,
 				C5A95BB423B57BD000331F6E /* MyTableViewController.swift */,
 				C5A95BBF23B5B51F00331F6E /* HintPopUpViewController.swift */,
@@ -170,6 +173,7 @@
 				C5A95BB523B57BD000331F6E /* MyTableViewController.swift in Sources */,
 				C5A95BB723B5819600331F6E /* AboutViewController.swift in Sources */,
 				C5092240235CE3D4002C9B1D /* AppDelegate.swift in Sources */,
+				C586CBB623C3D1FD00F9FFAC /* GoToQuesionViewController.swift in Sources */,
 				C5092242235CE3D4002C9B1D /* SceneDelegate.swift in Sources */,
 				C5A95BC023B5B51F00331F6E /* HintPopUpViewController.swift in Sources */,
 				C5C02B3823C12E3F00193629 /* AnswerViewController.swift in Sources */,

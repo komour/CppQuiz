@@ -79,7 +79,7 @@ class ViewController: UIViewController {
         }
     }
     
-    var counter = 0
+    static var curIndex = 0
     var answerView : UIView? = nil
     var wrongAnswerView : UIView? = nil
     var rightAnswerView : UIView? = nil
@@ -116,14 +116,15 @@ class ViewController: UIViewController {
             (success) -> Void in
             if success {
                 self.transform()
-                //self.questionList.shuffle()
-                
                 if UserDefaults.standard.value(forKey: "curQuestionId") == nil {
                     self.displayQuestion(forQuestion: self.questionList.first!)
                     UserDefaults.standard.set(self.questionList.first!.id, forKey: "curQuestionId")
                 } else {
-                    let index = self.searchQuestionIndex(withId: UserDefaults.standard.value(forKey: "curQuestionId") as! Int)
-                    self.counter = index
+                    var index = self.searchQuestionIndex(withId: UserDefaults.standard.value(forKey: "curQuestionId") as! Int)
+                    if index == -1 {
+                        index = 0
+                    }
+                    ViewController.self.curIndex = index
                     self.displayQuestion(forQuestion: self.questionList[index])
                 }
             }
@@ -136,7 +137,7 @@ class ViewController: UIViewController {
                 return i
             }
         }
-        return 1
+        return -1
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
@@ -175,17 +176,16 @@ class ViewController: UIViewController {
     
     private func displayQuestion(forQuestion question: Question) {
         questionTextView.text = question.questionBody
-        navigationBar.title = "Question #\(question.id). Difficulty: \(question.difficulty). \(counter + 1)/\(questionList.count)"
+        navigationBar.title = "Question #\(question.id). Difficulty: \(question.difficulty). \(ViewController.curIndex + 1)/\(questionList.count)"
         ViewController.curQuestion = question
         UserDefaults.standard.set(ViewController.curQuestion.id, forKey: "curQuestionId")
     }
     
     func incrementCounter() {
-        if counter == questionList.count - 1 {
-            questionList.shuffle()
-            counter = 0
+        if ViewController.curIndex == questionList.count - 1 {
+            ViewController.curIndex = 0
         } else {
-            counter += 1
+            ViewController.curIndex += 1
         }
     }
     
@@ -193,7 +193,7 @@ class ViewController: UIViewController {
         wrongAnswerView!.hideAnimated(in: verticalStackView)
         rightAnswerView!.hideAnimated(in: verticalStackView)
         incrementCounter()
-        displayQuestion(forQuestion: questionList[counter])
+        displayQuestion(forQuestion: questionList[ViewController.curIndex])
         textFieldAnswer.text = ""
         self.answerButtonOutlet.setTitle("Answer", for: .normal)
         self.view.backgroundColor = UIColor.systemBackground
@@ -230,6 +230,7 @@ class ViewController: UIViewController {
         let destination = storyboard.instantiateViewController(withIdentifier: "AnswerView")
         navigationController?.pushViewController(destination, animated: true)
     }
+    
     
     let TOOLBAR_HEIGHT: CGFloat = 30
     let DEFAULT_CONSTRAINT_BOT: CGFloat = 10
