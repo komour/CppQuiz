@@ -319,7 +319,7 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kEi-e9-sJg">
                                 <rect key="frame" x="20" y="128.33333333333334" width="374" height="30"/>
-                                <state key="normal" title="Open question by its id!"/>
+                                <state key="normal" title="Open question by its ID!"/>
                                 <connections>
                                     <action selector="goToQuestionByIdButton" destination="fr3-CO-VDp" eventType="touchUpInside" id="xJ1-U8-CWu"/>
                                 </connections>

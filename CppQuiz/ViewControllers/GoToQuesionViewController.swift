@@ -46,7 +46,7 @@ class GoToQuesionViewController: UIViewController {    override func viewDidLoad
     }
     
     func createAlertInvalidId() {
-        let alert = UIAlertController(title: "WARNING", message: "Invalid question ID (try 106 if you don't know).", preferredStyle: .alert)
+        let alert = UIAlertController(title: "WARNING", message: "Invalid question ID (try \(GoToQuesionViewController.idSet.randomElement()!)).", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(action) in
             alert.dismiss(animated: true, completion: nil)
         }))
