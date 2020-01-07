@@ -30,12 +30,29 @@ class GoToQuesionViewController: UIViewController {    override func viewDidLoad
         self.view.endEditing(true)
     }
     
+    public static var idSet = Set<String>()
+    
     @IBOutlet var goToQuestionByIdTextField: UITextField!
     @IBAction func goToQuestionByIdButton() {
-        let id = Int(goToQuestionByIdTextField.text ?? "106")
-                UserDefaults.standard.set(id, forKey: "curQuestionId")
-                presentMainVC()
+        let idInTextField = goToQuestionByIdTextField.text ?? ""
+        if GoToQuesionViewController.idSet.contains(idInTextField) {
+            let id = Int(goToQuestionByIdTextField.text ?? "106")
+            UserDefaults.standard.set(id, forKey: "curQuestionId")
+            presentMainVC()
+        } else {
+            createAlertInvalidId()
+            self.view.endEditing(true)
+        }
     }
+    
+    func createAlertInvalidId() {
+        let alert = UIAlertController(title: "WARNING", message: "Invalid question ID (try 106 if you don't know).", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
         func presentMainVC() {
         DispatchQueue.main.async {
             let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)

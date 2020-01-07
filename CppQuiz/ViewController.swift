@@ -61,6 +61,7 @@ class ViewController: UIViewController {
         for i in 0..<questionJsonList.count {
             let cur = questionJsonList[i]
             questionList.append(Question(id: cur.id, questionBody: cur.question, result: stringToPickOption(for: cur.result, with: cur.answer), answer: cur.answer, explanation: cur.explanation, hint: cur.hint, difficulty: cur.difficulty))
+            GoToQuesionViewController.idSet.insert(String(cur.id))
         }
     }
     
