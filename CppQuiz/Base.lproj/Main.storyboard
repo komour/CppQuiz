@@ -60,6 +60,7 @@
                         <viewLayoutGuide key="safeArea" id="yaJ-Xv-kJW"/>
                     </view>
                     <connections>
+                        <outlet property="centralView" destination="rdk-Yy-hua" id="JRz-A5-q7U"/>
                         <outlet property="hintTextView" destination="6A8-QD-eOa" id="EL0-Wl-f2f"/>
                     </connections>
                 </viewController>

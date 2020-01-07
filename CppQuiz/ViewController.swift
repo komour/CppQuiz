@@ -210,6 +210,7 @@ class ViewController: UIViewController {
         if crutchHint {
             createAlertHint()
         } else {
+            doneButtonAction()
             let hintPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "HintPopUpVC")
             self.addChild(hintPopUpVC)
             hintPopUpVC.view.frame = self.view.frame
@@ -222,6 +223,7 @@ class ViewController: UIViewController {
         attemptsRemain -= 1
         let answer = self.currentPickOption?.answer(textFieldAnswer.text ?? "")
         if answer == ViewController.curQuestion.result {
+            crutchHint = false
             rightAnswerView!.showAnimated(in: verticalStackView)
             wrongAnswerView!.hideAnimated(in: verticalStackView)
             let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -279,18 +281,20 @@ class ViewController: UIViewController {
     var attemptsRemain = 3
     var crutchHint = true
     func createAlertHint() {
+        
         let alert = UIAlertController(title: "WARNING", message: "Are you sure you want to view the hint? Have you really thought through the question?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {(action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
         alert.addAction(UIAlertAction(title: "Show hint", style: .default, handler: {(action) in
             alert.dismiss(animated: true, completion: nil)
+            self.doneButtonAction()
             self.crutchHint = false
             let hintPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "HintPopUpVC")
             self.addChild(hintPopUpVC)
             hintPopUpVC.view.frame = self.view.frame
             self.view.addSubview(hintPopUpVC.view)
             hintPopUpVC.didMove(toParent: self)
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {(action) in
-            alert.dismiss(animated: true, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)
     }

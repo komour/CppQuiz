@@ -13,8 +13,13 @@ class HintPopUpViewController: UIViewController {
 
     @IBOutlet weak var hintTextView: UITextView!
     
+    @IBOutlet var centralView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        centralView.layer.cornerRadius = 17
+        centralView.layer.masksToBounds = true
+        
         hintTextView.isEditable = false
         hintTextView.isScrollEnabled = true
         hintTextView.text = "    " + ViewController.curQuestion.hint
