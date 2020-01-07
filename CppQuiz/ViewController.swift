@@ -93,6 +93,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        crutchHint = true
                 
         answerView = verticalStackView.arrangedSubviews[3]
         wrongAnswerView = verticalStackView.arrangedSubviews[1]
@@ -177,6 +178,7 @@ class ViewController: UIViewController {
     
     private func displayQuestion(forQuestion question: Question) {
         questionTextView.text = question.questionBody
+        crutchHint = true
         navigationBar.title = "Question #\(question.id). Difficulty: \(question.difficulty). \(ViewController.curIndex + 1)/\(questionList.count)"
         ViewController.curQuestion = question
         UserDefaults.standard.set(ViewController.curQuestion.id, forKey: "curQuestionId")
@@ -202,11 +204,15 @@ class ViewController: UIViewController {
     
     
     @IBAction func hintButton() {
-        let hintPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "HintPopUpVC")
-        self.addChild(hintPopUpVC)
-        hintPopUpVC.view.frame = self.view.frame
-        self.view.addSubview(hintPopUpVC.view)
-        hintPopUpVC.didMove(toParent: self)
+        if crutchHint {
+            createAlertHint()
+        } else {
+            let hintPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "HintPopUpVC")
+            self.addChild(hintPopUpVC)
+            hintPopUpVC.view.frame = self.view.frame
+            self.view.addSubview(hintPopUpVC.view)
+            hintPopUpVC.didMove(toParent: self)
+        }
     }
     
     @IBAction func answerButton() {
@@ -260,6 +266,24 @@ class ViewController: UIViewController {
     
     @objc func doneButtonAction() {
         self.view.endEditing(true)
+    }
+    
+    var crutchHint = true
+    func createAlertHint() {
+        let alert = UIAlertController(title: "Are you sure you want to view the hint?", message: "Have you really thought through the question?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "SHOW HINT", style: .default, handler: {(action) in
+            alert.dismiss(animated: true, completion: nil)
+            self.crutchHint = false
+            let hintPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "HintPopUpVC")
+            self.addChild(hintPopUpVC)
+            hintPopUpVC.view.frame = self.view.frame
+            self.view.addSubview(hintPopUpVC.view)
+            hintPopUpVC.didMove(toParent: self)
+        }))
+        alert.addAction(UIAlertAction(title: "CANCEL", style: .default, handler: {(action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
 
 }
