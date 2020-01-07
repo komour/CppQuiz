@@ -94,6 +94,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         crutchHint = true
+        attemptsRemain = 3
                 
         answerView = verticalStackView.arrangedSubviews[3]
         wrongAnswerView = verticalStackView.arrangedSubviews[1]
@@ -179,6 +180,7 @@ class ViewController: UIViewController {
     private func displayQuestion(forQuestion question: Question) {
         questionTextView.text = question.questionBody
         crutchHint = true
+        attemptsRemain = 3
         navigationBar.title = "Question #\(question.id). Difficulty: \(question.difficulty). \(ViewController.curIndex + 1)/\(questionList.count)"
         ViewController.curQuestion = question
         UserDefaults.standard.set(ViewController.curQuestion.id, forKey: "curQuestionId")
@@ -216,7 +218,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func answerButton() {
-        
+        attemptsRemain -= 1
         let answer = self.currentPickOption?.answer(textFieldAnswer.text ?? "")
         if answer == ViewController.curQuestion.result {
             rightAnswerView!.showAnimated(in: verticalStackView)
@@ -233,9 +235,14 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var navigationBar: UINavigationItem!
     @IBAction func giveUpButton() {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let destination = storyboard.instantiateViewController(withIdentifier: "AnswerView")
-        navigationController?.pushViewController(destination, animated: true)
+        if attemptsRemain <= 0 {
+            crutchHint = false
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let destination = storyboard.instantiateViewController(withIdentifier: "AnswerView")
+            navigationController?.pushViewController(destination, animated: true)
+        } else {
+            createAlertGiveUp()
+        }
     }
     
     
@@ -268,10 +275,11 @@ class ViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    var attemptsRemain = 3
     var crutchHint = true
     func createAlertHint() {
-        let alert = UIAlertController(title: "Are you sure you want to view the hint?", message: "Have you really thought through the question?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "SHOW HINT", style: .default, handler: {(action) in
+        let alert = UIAlertController(title: "WARNING", message: "Are you sure you want to view the hint? Have you really thought through the question?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Show hint", style: .default, handler: {(action) in
             alert.dismiss(animated: true, completion: nil)
             self.crutchHint = false
             let hintPopUpVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "HintPopUpVC")
@@ -280,7 +288,15 @@ class ViewController: UIViewController {
             self.view.addSubview(hintPopUpVC.view)
             hintPopUpVC.didMove(toParent: self)
         }))
-        alert.addAction(UIAlertAction(title: "CANCEL", style: .default, handler: {(action) in
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {(action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func createAlertGiveUp() {
+        let alert = UIAlertController(title: "WARNING", message: "Make \(attemptsRemain) more attempts first.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(action) in
             alert.dismiss(animated: true, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)
