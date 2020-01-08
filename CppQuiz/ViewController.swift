@@ -42,7 +42,7 @@ class ViewController: UIViewController {
 
     public static var curQuestion: Question!
     private var questionJsonList = [QuestionJson]()
-    private var questionList = [Question]()
+    static var questionList = [Question]()
     
     func stringToPickOption(for string: String, with answer: String) -> Question.Answer {
         switch string {
@@ -60,7 +60,7 @@ class ViewController: UIViewController {
     func transform() {
         for i in 0..<questionJsonList.count {
             let cur = questionJsonList[i]
-            questionList.append(Question(id: cur.id, questionBody: cur.question, result: stringToPickOption(for: cur.result, with: cur.answer), answer: cur.answer, explanation: cur.explanation, hint: cur.hint, difficulty: cur.difficulty))
+            ViewController.questionList.append(Question(id: cur.id, questionBody: cur.question, result: stringToPickOption(for: cur.result, with: cur.answer), answer: cur.answer, explanation: cur.explanation, hint: cur.hint, difficulty: cur.difficulty))
             GoToQuesionViewController.idSet.insert(String(cur.id))
         }
     }
@@ -121,23 +121,31 @@ class ViewController: UIViewController {
                 self.transform()
                 if UserDefaults.standard.value(forKey: "curQuestionId") == nil {
                     ViewController.curIndex = 0
-                    self.displayQuestion(forQuestion: self.questionList.first!)
-                    UserDefaults.standard.set(self.questionList.first!.id, forKey: "curQuestionId")
+                    self.displayQuestion(forQuestion: ViewController.self.questionList.first!)
+                    UserDefaults.standard.set(ViewController.self.questionList.first!.id, forKey: "curQuestionId")
                 } else {
                     var index = self.searchQuestionIndex(withId: UserDefaults.standard.value(forKey: "curQuestionId") as! Int)
                     if index == -1 {
                         index = 0
                     }
                     ViewController.self.curIndex = index
-                    self.displayQuestion(forQuestion: self.questionList[index])
+                    self.displayQuestion(forQuestion: ViewController.self.questionList[index])
                 }
             }
         }
     }
+    
+    static var crutchShuffle = false
+    override func viewDidAppear(_ animated: Bool) {
+        if ViewController.crutchShuffle {
+            displayQuestion(forQuestion: ViewController.questionList[ViewController.curIndex])
+            ViewController.crutchShuffle = false
+        }
+    }
 
     func searchQuestionIndex(withId id: Int) -> Int {
-        for i in 0..<questionList.count {
-            if questionList[i].id == id {
+        for i in 0..<ViewController.questionList.count {
+            if ViewController.questionList[i].id == id {
                 return i
             }
         }
@@ -182,13 +190,13 @@ class ViewController: UIViewController {
         questionTextView.text = question.questionBody
         crutchHint = true
         attemptsRemain = 3
-        navigationBar.title = "Question #\(question.id). Difficulty: \(question.difficulty). \(ViewController.curIndex + 1)/\(questionList.count)"
+        navigationBar.title = "Question #\(question.id). Difficulty: \(question.difficulty). \(ViewController.curIndex + 1)/\(ViewController.questionList.count)"
         ViewController.curQuestion = question
         UserDefaults.standard.set(ViewController.curQuestion.id, forKey: "curQuestionId")
     }
     
     func incrementCounter() {
-        if ViewController.curIndex == questionList.count - 1 {
+        if ViewController.curIndex == ViewController.questionList.count - 1 {
             ViewController.curIndex = 0
         } else {
             ViewController.curIndex += 1
@@ -199,7 +207,7 @@ class ViewController: UIViewController {
         wrongAnswerView!.hideAnimated(in: verticalStackView)
         rightAnswerView!.hideAnimated(in: verticalStackView)
         incrementCounter()
-        displayQuestion(forQuestion: questionList[ViewController.curIndex])
+        displayQuestion(forQuestion: ViewController.questionList[ViewController.curIndex])
         textFieldAnswer.text = ""
         self.answerButtonOutlet.setTitle("Answer", for: .normal)
         self.view.backgroundColor = UIColor.systemBackground

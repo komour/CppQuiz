@@ -8,6 +8,7 @@
 
 import UIKit
 
+@available(iOS 13.0, *)
 class MyTableViewController: UITableViewController {
 
     override func viewDidLoad() {
@@ -24,6 +25,11 @@ class MyTableViewController: UITableViewController {
         case 1:
             let destination = storyboard.instantiateViewController(withIdentifier: "GoToQuesionViewController")
             navigationController?.pushViewController(destination, animated: true)
+        case 2:
+            ViewController.questionList.shuffle()
+            ViewController.curIndex = 0
+            ViewController.crutchShuffle = true
+            tableView.deselectRow(at: indexPath, animated: true)
         default:
             print("default switch case in tableView dedSelectRowAt\n")
         }
